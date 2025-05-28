@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Top-Up Fynstore</title>
+    <style>
+      /* Reset & base */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      body {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 20px;
+      }
+
+      /* Header dengan logo */
+      header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 1rem;
+      }
+      header img {
+        width: 50px;
+        height: 50px;
+        border-radius: 8px;
+        object-fit: contain;
+        user-select: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+      header h1 {
+        margin: 0;
+        font-weight: 700;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        color: #fff;
+        user-select: none;
+      }
+
+      /* Grid Produk */
+      #product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .product-card {
+        background: rgba(255 255 255 / 0.1);
+        border-radius: 12px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        user-select: none;
+      }
+      .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+      }
+      .product-icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 10px;
+        filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
+        user-select: none;
+      }
+      .product-name {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+        color: #fff;
+      }
+      .product-price {
+        font-weight: 700;
+        font-size: 1rem;
+        color: #ffd700;
+      }
+
+      /* Form Order */
+      #order-section {
+        background: rgba(255 255 255 / 0.12);
+        border-radius: 15px;
+        padding: 20px;
+        max-width: 450px;
+        margin: 0 auto 3rem auto;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        display: none;
+        flex-direction: column;
+      }
+      #order-section.active {
+        display: flex;
+      }
+      #order-section h2 {
+        margin-bottom: 15px;
+        text-align: center;
+        color: #fff;
+        text-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+      }
+      label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+        color: #f0f0f0;
+      }
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 8px 10px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+        outline: none;
+      }
+      select {
+        cursor: pointer;
+      }
+      #order-summary {
+        background: rgba(0, 0, 0, 0.15);
+        padding: 12px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        color: #ffe;
+        font-weight: 600;
+      }
+      button {
+        background: linear-gradient(90deg, #ff7e5f, #feb47b);
+        border: none;
+        padding: 12px 0;
+        border-radius: 25px;
+        color: #fff;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(255, 126, 95, 0.7);
+        transition: background 0.3s ease;
+      }
+      button:disabled {
+        background: #999;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+      button:hover:not(:disabled) {
+        background: linear-gradient(90deg, #feb47b, #ff7e5f);
+      }
+
+      /* QRIS Section */
+      #payment-section {
+        display: none;
+        max-width: 300px;
+        margin: 0 auto 2rem auto;
+        text-align: center;
+        background: rgba(255 255 255 / 0.1);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        user-select: none;
+      }
+      #payment-section.active {
+        display: block;
+      }
+      #qris-img {
+        width: 180px;
+        height: 180px;
+        margin-bottom: 15px;
+      }
+      #timer {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #ffd700;
+      }
+      #whatsapp-btn {
+        background: #25d366;
+        box-shadow: 0 5px 15px rgba(37, 211, 102, 0.7);
+      }
+      #whatsapp-btn:disabled {
+        background: #75d397;
+        box-shadow: none;
+      }
+      #whatsapp-btn:hover:not(:disabled) {
+        background: #1ebe57;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        font-size: 0.9rem;
+        padding: 10px 0;
+        color: #eee;
+        user-select: none;
+      }
+      footer a {
+        color: #ffd700;
+        text-decoration: none;
+        font-weight: 600;
+        margin: 0 10px;
+        transition: color 0.3s ease;
+      }
+      footer a:hover {
+        color: #fff;
+        text-decoration: underline;
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        #product-grid {
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        }
+        #order-section,
+        #payment-section {
+          max-width: 100%;
+          padding: 15px;
+        }
+        .product-icon {
+          width: 50px;
+          height: 50px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img src="../DARI GPT/assets/Logo Fyn.jpg" alt="Logo Toko" />
+      <h1>Top-Up Fynstore</h1>
+    </header>
+
+    <!-- Katalog Produk -->
+    <section id="product-grid" aria-label="Katalog Produk">
+      <!-- Produk akan diinject dari JS -->
+    </section>
+
+    <!-- Form Order -->
+    <section id="order-section" aria-label="Formulir Pemesanan">
+      <h2>Formulir Pemesanan</h2>
+      <form id="order-form">
+        <label for="user-id">ID Game / Nomor HP</label>
+        <input
+          type="text"
+          id="user-id"
+          name="userId"
+          required
+          placeholder="Masukkan ID atau nomor HP"
+          autocomplete="off"
+        />
+
+        <label for="nominal">Nominal / Top-up</label>
+        <select id="nominal" name="nominal" required>
+          <!-- opsi nominal akan diinject JS -->
+        </select>
+
+        <div id="order-summary"></div>
+
+        <button type="submit" id="btn-pesan">Pesan Sekarang</button>
+      </form>
+    </section>
+
+    <!-- Pembayaran QRIS -->
+    <section id="payment-section" aria-label="Pembayaran QRIS">
+        <img
+          id="qris-img"
+          src="../DARI GPT/assets/QRIS ORKUT 2.jpg"
+          alt="QRIS Payment Code"
+        />
+        <div id="timer">10:00</div>
+        <div id="payment-instruction" style="margin-bottom: 15px; color: #eee; font-size: 0.95rem; line-height: 1.5;">
+            <p><strong>Petunjuk Pembayaran:</strong></p>
+            <ul style="padding-left: 18px; text-align: left;">
+            <ol>
+                <li>Buka aplikasi e-wallet Anda (DANA, OVO, Gopay, ShopeePay, dll).</li>
+                <li>Pilih menu <strong>“Scan QR”</strong>.</li>
+                <li>Scan gambar QRIS yang muncul di atas.</li>
+                <li>Masukkan nominal sesuai harga yang tertera.</li>
+                <li>Bayar dan pastikan transaksi berhasil.</li>
+                <li>Setelah membayar, klik gambar QRIS untuk mengonfirmasi pembayaran.</li>
+                <li>Jika berhasil, tombol WhatsApp akan aktif untuk mengirim bukti ke admin.</li>
+            </ol>
+            </ul>
+          </div>
+          
+        <button id="whatsapp-btn" disabled>
+          Kirim Pesanan ke WhatsApp Admin
+        </button>
+      </section>
+      
+
+    <footer>
+      Ikuti kami di
+      <a
+        href="https://www.instagram.com/fynn_storemlbb/"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Instagram</a
+      >
+      |
+      <a
+        href="https://chat.whatsapp.com/BrmByznEg7ZDxqpIWgMA6S"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Grup Reseller</a
+      >
+    </footer>
+
+    <script>
+      // Fungsi format harga ke Rp dengan titik ribuan
+      function formatRupiah(number) {
+        return "Rp " + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      }
+
+      // Data produk lengkap dengan harga
+      const products = [
+        {
+          id: "diamond_mlbb",
+          name: "Diamond Mobile Legends",
+          icon: "../DARI GPT/assets/ml.jpeg",
+          prices: [
+            { label: "Weekly Diamond Pass x1", price: 29000 },
+            { label: "Diamond ML 5💎 ", price: 1600 },
+            { label: "Diamond Ganda ML 50+50💎", price: 17000 },
+            { label: "Diamond Ganda ML 150+150💎", price: 51000 },
+            { label: "Diamond Ganda ML 250+250💎", price: 85000 },
+            { label: "Diamond Ganda ML 500+500💎", price: 170000 },
+            { label: "Diamond ML 12💎", price: 4000 },
+            { label: "Diamond ML 19💎", price: 6500 },
+            { label: "Diamond ML 28💎", price: 9500 },
+            { label: "Diamond ML 44💎", price: 13500 },
+            { label: "Diamond ML 59💎", price: 18000 },
+            { label: "Diamond ML 85💎", price: 27500 },
+            { label: "Diamond ML 170💎 (Event Topup 100💎)", price: 53000 },
+            { label: "Diamond ML 240💎", price: 70000 },
+            { label: "Diamond ML 296💎 (Event Topup 250💎)", price: 85800 },
+            { label: "Diamond ML 408💎", price: 125000 },
+            { label: "Diamond ML 568💎", price: 165000 },
+            { label: "Diamond ML 875💎", price: 245000 },
+            { label: "Diamond ML 2010💎", price: 550000 },
+            { label: "Diamond ML 4830💎", price: 1430000 },
+            ,
+          ],
+        },
+        // {
+        //   id: "uc_pubg",
+        //   name: "UC PUBG Mobile",
+        //   icon: "https://cdn-icons-png.flaticon.com/512/906/906175.png",
+        //   prices: [
+        //     { label: "65 UC", price: 15000 },
+        //     { label: "325 UC", price: 70000 },
+        //     { label: "540 UC", price: 115000 },
+        //     { label: "1100 UC", price: 230000 },
+        //   ],
+        // },
+        // {
+        //   id: "pulsa_telkomsel",
+        //   name: "Pulsa Telkomsel",
+        //   icon: "https://cdn-icons-png.flaticon.com/512/888/888857.png",
+        //   prices: [
+        //     { label: "5.000", price: 5000 },
+        //     { label: "10.000", price: 10000 },
+        //     { label: "25.000", price: 25000 },
+        //     { label: "50.000", price: 50000 },
+        //   ],
+        // },
+        // {
+        //   id: "voucher_game",
+        //   name: "Voucher Game",
+        //   icon: "https://cdn-icons-png.flaticon.com/512/3039/3039432.png",
+        //   prices: [
+        //     { label: "Voucher Rp 20.000", price: 20000 },
+        //     { label: "Voucher Rp 50.000", price: 50000 },
+        //     { label: "Voucher Rp 100.000", price: 100000 },
+        //   ],
+        // },
+      ];
+
+      const productGrid = document.getElementById("product-grid");
+      const orderSection = document.getElementById("order-section");
+      const orderForm = document.getElementById("order-form");
+      const nominalSelect = document.getElementById("nominal");
+      const orderSummary = document.getElementById("order-summary");
+      const paymentSection = document.getElementById("payment-section");
+      const timerEl = document.getElementById("timer");
+      const whatsappBtn = document.getElementById("whatsapp-btn");
+
+      let selectedProduct = null;
+      let timerInterval = null;
+      let timeLeft = 600; // 10 menit dalam detik
+
+      // Render kartu produk dengan harga terkecil sebagai harga preview
+      function renderProducts() {
+        productGrid.innerHTML = "";
+        products.forEach((prod) => {
+          // Harga terkecil dari array prices
+          const minPrice = prod.prices.reduce(
+            (min, p) => (p.price < min ? p.price : min),
+            prod.prices[0].price
+          );
+          const card = document.createElement("div");
+          card.className = "product-card";
+          card.setAttribute("tabindex", "0");
+          card.setAttribute("role", "button");
+          card.setAttribute("aria-pressed", "false");
+          card.innerHTML = `
+          <img src="${prod.icon}" alt="${
+            prod.name
+          } icon" class="product-icon" />
+          <div class="product-name">${prod.name}</div>
+          <div class="product-price">${formatRupiah(minPrice)}</div>
+        `;
+          card.addEventListener("click", () => selectProduct(prod.id));
+          card.addEventListener("keypress", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              selectProduct(prod.id);
+            }
+          });
+          productGrid.appendChild(card);
+        });
+      }
+
+      // Ketika produk dipilih, tampilkan form order dan isi nominal sesuai produk
+      function selectProduct(productId) {
+        selectedProduct = products.find((p) => p.id === productId);
+        if (!selectedProduct) return;
+
+        orderSection.classList.add("active");
+        paymentSection.classList.remove("active");
+        whatsappBtn.disabled = true;
+
+        // Isi dropdown nominal
+        nominalSelect.innerHTML = "";
+        selectedProduct.prices.forEach((p) => {
+          const option = document.createElement("option");
+          option.value = p.label;
+          option.textContent = `${p.label} - ${formatRupiah(p.price)}`;
+          nominalSelect.appendChild(option);
+        });
+
+        orderForm.userId.value = "";
+        nominalSelect.selectedIndex = 0;
+        updateSummary();
+
+        // Scroll ke form
+        orderSection.scrollIntoView({ behavior: "smooth" });
+      }
+
+      // Update ringkasan order
+      function updateSummary() {
+        const userId = orderForm.userId.value.trim();
+        const nominalLabel = nominalSelect.value;
+        const priceObj = selectedProduct.prices.find(
+          (p) => p.label === nominalLabel
+        );
+        const priceText = priceObj ? formatRupiah(priceObj.price) : "-";
+
+        orderSummary.textContent =
+          `Produk: ${selectedProduct.name}\n` +
+          `User ID/HP: ${userId || "-"}\n` +
+          `Nominal: ${nominalLabel}\n` +
+          `Harga: ${priceText}`;
+      }
+
+      orderForm.userId.addEventListener("input", updateSummary);
+      nominalSelect.addEventListener("change", updateSummary);
+
+      // Timer fungsi
+      function startTimer() {
+        timeLeft = 600; // 10 menit
+        timerEl.textContent = formatTime(timeLeft);
+        whatsappBtn.disabled = true;
+
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          timerEl.textContent = formatTime(timeLeft);
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            whatsappBtn.disabled = true;
+            timerEl.textContent = "Waktu habis";
+          }
+        }, 1000);
+      }
+
+      function formatTime(seconds) {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m.toString().padStart(2, "0")}:${s
+          .toString()
+          .padStart(2, "0")}`;
+      }
+
+      // Saat tombol Pesan diklik
+      orderForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!selectedProduct) return alert("Pilih produk terlebih dahulu!");
+        const userId = orderForm.userId.value.trim();
+        if (userId === "") return alert("Masukkan ID game atau nomor HP!");
+        const nominalLabel = nominalSelect.value;
+
+        // Tampilkan payment section dan mulai timer
+        paymentSection.classList.add("active");
+        startTimer();
+
+        // Reset tombol WA
+        whatsappBtn.disabled = true;
+        whatsappBtn.style.display = "inline-block";
+      });
+
+      // Ketika tombol WhatsApp diklik
+      whatsappBtn.addEventListener("click", () => {
+        const userId = orderForm.userId.value.trim();
+        const nominalLabel = nominalSelect.value;
+
+        const message =
+          `Halo Admin, saya sudah melakukan pembayaran!\n` +
+          `Produk: ${selectedProduct.name}\n` +
+          `User ID: ${userId}\n` +
+          `Nominal: ${nominalLabel}\n` +
+          `Bukti transfer: [Saya sudah bayar via QRIS]`;
+
+        const waNumber = "6281269441924"; // Ganti dengan nomor admin kamu tanpa + atau 0 awal (contoh: 6281234567890)
+        const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(
+          message
+        )}`;
+        window.open(url, "_blank");
+      });
+
+      // Simulasi pembayaran manual
+      // Setelah klik Pesan, tombol WA muncul dan aktif dalam 10 menit,
+      // kalau habis disable otomatis.
+      // Tapi tombol WA cuma aktif jika user klik tombol “Saya sudah bayar” (disini kita simulasikan tombol itu)
+      // Jadi kita buat shortcut di sini: klik QRIS buat aktifkan tombol WA (simulasi)
+
+      // Klik QRIS untuk simulasi sudah bayar
+      document.getElementById("qris-img").addEventListener("click", () => {
+        if (timeLeft > 0) {
+          whatsappBtn.disabled = false;
+          alert("Status pembayaran: Sudah bayar (Maka langsung ke admin)");
+        }
+      });
+
+      // Init
+      renderProducts();
+    </script>
+  </body>
+</html>
