@@ -1,555 +1,971 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Top-Up Fynstore</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Top-Up Diamond Mobile Legends dan berbagai produk game lainnya dengan harga terbaik di Fynstore">
+    <meta name="keywords" content="topup mlbb, diamond mobile legends, voucher game, topup game">
+    <title>Top-Up Diamond Mobile Legends | Fynstore</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="Logo Fyn.jpg" as="image">
+    <link rel="preload" href="ml.jpeg" as="image">
+    <link rel="preload" href="QRIS ORKUT 2.jpg" as="image">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="Logo Fyn.jpg" type="image/jpeg">
+    
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "OnlineStore",
+        "name": "Fynstore",
+        "description": "Toko top-up game Mobile Legends dan berbagai produk game lainnya",
+        "url": "https://fynstore.com",
+        "logo": "https://fynstore.com/Logo_Fyn.jpg",
+        "sameAs": [
+            "https://www.instagram.com/fynn_storemlbb/",
+            "https://chat.whatsapp.com/BrmByznEg7ZDxqpIWgMA6S"
+        ]
+    }
+    </script>
+    
     <style>
-      /* Reset & base */
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      }
-      body {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: #fff;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 20px;
-      }
-
-      /* Header dengan logo */
-      header {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 1rem;
-      }
-      header img {
-        width: 50px;
-        height: 50px;
-        border-radius: 8px;
-        object-fit: contain;
-        user-select: none;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      }
-      header h1 {
-        margin: 0;
-        font-weight: 700;
-        text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-        color: #fff;
-        user-select: none;
-      }
-
-      /* Grid Produk */
-      #product-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 1rem;
-        margin-bottom: 2rem;
-      }
-      .product-card {
-        background: rgba(255 255 255 / 0.1);
-        border-radius: 12px;
-        padding: 15px;
-        text-align: center;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        cursor: pointer;
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        user-select: none;
-      }
-      .product-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
-      }
-      .product-icon {
-        width: 60px;
-        height: 60px;
-        margin-bottom: 10px;
-        filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
-        user-select: none;
-      }
-      .product-name {
-        font-weight: 600;
-        font-size: 1.1rem;
-        margin-bottom: 5px;
-        color: #fff;
-      }
-      .product-price {
-        font-weight: 700;
-        font-size: 1rem;
-        color: #ffd700;
-      }
-
-      /* Form Order */
-      #order-section {
-        background: rgba(255 255 255 / 0.12);
-        border-radius: 15px;
-        padding: 20px;
-        max-width: 450px;
-        margin: 0 auto 3rem auto;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        display: none;
-        flex-direction: column;
-      }
-      #order-section.active {
-        display: flex;
-      }
-      #order-section h2 {
-        margin-bottom: 15px;
-        text-align: center;
-        color: #fff;
-        text-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
-      }
-      label {
-        font-weight: 600;
-        margin-bottom: 6px;
-        display: block;
-        color: #f0f0f0;
-      }
-      input[type="text"],
-      select {
-        width: 100%;
-        padding: 8px 10px;
-        margin-bottom: 15px;
-        border-radius: 8px;
-        border: none;
-        font-size: 1rem;
-        outline: none;
-      }
-      select {
-        cursor: pointer;
-      }
-      #order-summary {
-        background: rgba(0, 0, 0, 0.15);
-        padding: 12px;
-        border-radius: 10px;
-        margin-bottom: 15px;
-        color: #ffe;
-        font-weight: 600;
-      }
-      button {
-        background: linear-gradient(90deg, #ff7e5f, #feb47b);
-        border: none;
-        padding: 12px 0;
-        border-radius: 25px;
-        color: #fff;
-        font-weight: 700;
-        font-size: 1.1rem;
-        cursor: pointer;
-        box-shadow: 0 5px 15px rgba(255, 126, 95, 0.7);
-        transition: background 0.3s ease;
-      }
-      button:disabled {
-        background: #999;
-        cursor: not-allowed;
-        box-shadow: none;
-      }
-      button:hover:not(:disabled) {
-        background: linear-gradient(90deg, #feb47b, #ff7e5f);
-      }
-
-      /* QRIS Section */
-      #payment-section {
-        display: none;
-        max-width: 300px;
-        margin: 0 auto 2rem auto;
-        text-align: center;
-        background: rgba(255 255 255 / 0.1);
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-        user-select: none;
-      }
-      #payment-section.active {
-        display: block;
-      }
-      #qris-img {
-        width: 180px;
-        height: 180px;
-        margin-bottom: 15px;
-      }
-      #timer {
-        font-size: 1.2rem;
-        font-weight: 700;
-        margin-bottom: 15px;
-        color: #ffd700;
-      }
-      #whatsapp-btn {
-        background: #25d366;
-        box-shadow: 0 5px 15px rgba(37, 211, 102, 0.7);
-      }
-      #whatsapp-btn:disabled {
-        background: #75d397;
-        box-shadow: none;
-      }
-      #whatsapp-btn:hover:not(:disabled) {
-        background: #1ebe57;
-      }
-
-      /* Footer */
-      footer {
-        text-align: center;
-        font-size: 0.9rem;
-        padding: 10px 0;
-        color: #eee;
-        user-select: none;
-      }
-      footer a {
-        color: #ffd700;
-        text-decoration: none;
-        font-weight: 600;
-        margin: 0 10px;
-        transition: color 0.3s ease;
-      }
-      footer a:hover {
-        color: #fff;
-        text-decoration: underline;
-      }
-
-      /* Responsive */
-      @media (max-width: 600px) {
-        #product-grid {
-          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        /* CSS Variables for theming */
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #ffd700;
+            --success-color: #25d366;
+            --warning-color: #ff7e5f;
+            --text-light: #ffffff;
+            --text-lighter: rgba(255, 255, 255, 0.9);
+            --bg-overlay: rgba(255, 255, 255, 0.1);
+            --bg-overlay-dark: rgba(0, 0, 0, 0.15);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 8px 15px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 15px;
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s ease;
+            --font-primary: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-        #order-section,
-        #payment-section {
-          max-width: 100%;
-          padding: 15px;
+        
+        /* Reset and base styles */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+            overflow-x: hidden;
+        }
+        
+        /* Typography */
+        h1, h2, h3 {
+            line-height: 1.2;
+            font-weight: 700;
+        }
+        
+        h1 {
+            font-size: clamp(1.5rem, 5vw, 2rem);
+        }
+        
+        h2 {
+            font-size: clamp(1.25rem, 4vw, 1.75rem);
+        }
+        
+        /* Header styles */
+        header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+        }
+        
+        .logo {
+            width: 3.125rem;
+            height: 3.125rem;
+            border-radius: var(--border-radius-sm);
+            object-fit: contain;
+            user-select: none;
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition-fast);
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Product grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(11.25rem, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+        
+        .product-card {
+            background: var(--bg-overlay);
+            border-radius: var(--border-radius-md);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            user-select: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            will-change: transform, box-shadow;
+        }
+        
+        .product-card:hover,
+        .product-card:focus-visible {
+            transform: translateY(-0.5rem);
+            box-shadow: var(--shadow-lg);
+            outline: none;
+        }
+        
+        .product-card:active {
+            transform: translateY(-0.25rem);
+        }
+        
         .product-icon {
-          width: 50px;
-          height: 50px;
+            width: 3.75rem;
+            height: 3.75rem;
+            margin-bottom: 0.625rem;
+            filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
+            user-select: none;
+            object-fit: contain;
         }
-      }
+        
+        .product-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.3125rem;
+            color: var(--text-light);
+        }
+        
+        .product-price {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--accent-color);
+        }
+        
+        /* Form styles */
+        .order-section {
+            background: var(--bg-overlay);
+            border-radius: var(--border-radius-lg);
+            padding: 1.25rem;
+            max-width: 28.125rem;
+            margin: 0 auto 3rem auto;
+            box-shadow: var(--shadow-lg);
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .order-section.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            font-weight: 600;
+            margin-bottom: 0.375rem;
+            display: block;
+            color: var(--text-lighter);
+            font-size: 0.9375rem;
+        }
+        
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 0.5rem 0.625rem;
+            border-radius: var(--border-radius-sm);
+            border: none;
+            font-size: 1rem;
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            transition: box-shadow var(--transition-fast);
+        }
+        
+        input[type="text"]:focus,
+        select:focus {
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.5);
+        }
+        
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23667eea' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.625rem center;
+            background-size: 1rem;
+        }
+        
+        .order-summary {
+            background: var(--bg-overlay-dark);
+            padding: 0.75rem;
+            border-radius: var(--border-radius-md);
+            margin-bottom: 1rem;
+            color: var(--text-lighter);
+            font-weight: 600;
+            white-space: pre-line;
+            font-size: 0.9375rem;
+            line-height: 1.5;
+        }
+        
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 1.5625rem;
+            color: var(--text-light);
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            text-align: center;
+            text-decoration: none;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, var(--warning-color), #feb47b);
+            box-shadow: 0 5px 15px rgba(255, 126, 95, 0.7);
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(90deg, #feb47b, var(--warning-color));
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255, 126, 95, 0.8);
+        }
+        
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        
+        .btn-success {
+            background: var(--success-color);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.7);
+        }
+        
+        .btn-success:hover:not(:disabled) {
+            background: #1ebe57;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(37, 211, 102, 0.8);
+        }
+        
+        .btn-success:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        
+        .btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none !important;
+            opacity: 0.7;
+        }
+        
+        /* Payment section */
+        .payment-section {
+            display: none;
+            max-width: 18.75rem;
+            margin: 0 auto 2rem auto;
+            text-align: center;
+            background: var(--bg-overlay);
+            padding: 1.25rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            user-select: none;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .payment-section.active {
+            display: block;
+        }
+        
+        .qris-img {
+            width: 11.25rem;
+            height: 11.25rem;
+            margin: 0 auto 1rem;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: transform var(--transition-fast);
+            object-fit: contain;
+            background: white;
+            padding: 0.5rem;
+        }
+        
+        .qris-img:hover {
+            transform: scale(1.03);
+        }
+        
+        .timer {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+        
+        .payment-instruction {
+            margin-bottom: 1rem;
+            color: var(--text-lighter);
+            font-size: 0.9375rem;
+            line-height: 1.5;
+            text-align: left;
+        }
+        
+        .payment-instruction strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .payment-instruction ol {
+            padding-left: 1.25rem;
+        }
+        
+        .payment-instruction li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            padding: 0.625rem 0;
+            color: var(--text-lighter);
+            margin-top: auto;
+        }
+        
+        .footer-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 0.625rem;
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+        
+        .footer-link:hover {
+            color: var(--text-light);
+        }
+        
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--text-light);
+            transition: width var(--transition-fast);
+        }
+        
+        .footer-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Loading state */
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 37.5rem) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(8.75rem, 1fr));
+            }
+            
+            .order-section,
+            .payment-section {
+                max-width: 100%;
+                padding: 1rem;
+            }
+            
+            .product-icon {
+                width: 3.125rem;
+                height: 3.125rem;
+            }
+            
+            .qris-img {
+                width: 10rem;
+                height: 10rem;
+            }
+        }
+        
+        /* Accessibility improvements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        [aria-hidden="true"] {
+            display: none;
+        }
+        
+        /* Focus styles for keyboard navigation */
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        .product-card:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <header>
-      <img src="Logo Fyn.jpg" alt="Logo Toko" />
-      <h1>Top-Up Fynstore</h1>
+        <img src="Logo Fyn.jpg" alt="Logo Fynstore" class="logo" loading="eager">
+        <h1>Top-Up Fynstore</h1>
     </header>
 
-    <!-- Katalog Produk -->
-    <section id="product-grid" aria-label="Katalog Produk">
-      <!-- Produk akan diinject dari JS -->
-    </section>
+    <main>
+        <!-- Product Catalog -->
+        <section id="product-grid" class="product-grid" aria-label="Katalog Produk">
+            <!-- Products will be injected from JS -->
+        </section>
 
-    <!-- Form Order -->
-    <section id="order-section" aria-label="Formulir Pemesanan">
-      <h2>Formulir Pemesanan</h2>
-      <form id="order-form">
-        <label for="user-id">ID Game / Nomor HP</label>
-        <input
-          type="text"
-          id="user-id"
-          name="userId"
-          required
-          placeholder="Masukkan ID atau nomor HP"
-          autocomplete="off"
-        />
+        <!-- Order Form -->
+        <section id="order-section" class="order-section" aria-labelledby="order-heading">
+            <h2 id="order-heading">Formulir Pemesanan</h2>
+            <form id="order-form" class="order-form">
+                <div class="form-group">
+                    <label for="user-id">ID Game / Nomor HP</label>
+                    <input
+                        type="text"
+                        id="user-id"
+                        name="userId"
+                        required
+                        placeholder="Masukkan ID atau nomor HP"
+                        autocomplete="off"
+                        aria-required="true"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="nominal">Nominal / Top-up</label>
+                    <select id="nominal" name="nominal" required aria-required="true">
+                        <!-- Options will be injected from JS -->
+                    </select>
+                </div>
 
-        <label for="nominal">Nominal / Top-up</label>
-        <select id="nominal" name="nominal" required>
-          <!-- opsi nominal akan diinject JS -->
-        </select>
+                <div id="order-summary" class="order-summary" aria-live="polite"></div>
 
-        <div id="order-summary"></div>
+                <button type="submit" id="btn-pesan" class="btn btn-primary">
+                    Pesan Sekarang
+                </button>
+            </form>
+        </section>
 
-        <button type="submit" id="btn-pesan">Pesan Sekarang</button>
-      </form>
-    </section>
-
-    <!-- Pembayaran QRIS -->
-    <section id="payment-section" aria-label="Pembayaran QRIS">
-        <img
-          id="qris-img"
-          src="QRIS ORKUT 2.jpg"
-          alt="QRIS Payment Code"
-        />
-        <div id="timer">10:00</div>
-        <div id="payment-instruction" style="margin-bottom: 15px; color: #eee; font-size: 0.95rem; line-height: 1.5;">
-            <p><strong>Petunjuk Pembayaran:</strong></p>
-            <ul style="padding-left: 18px; text-align: left;">
-            <ol>
-                <li>Buka aplikasi e-wallet Anda (DANA, OVO, Gopay, ShopeePay, dll).</li>
-                <li>Pilih menu <strong>“Scan QR”</strong>.</li>
-                <li>Scan gambar QRIS yang muncul di atas.</li>
-                <li>Masukkan nominal sesuai harga yang tertera.</li>
-                <li>Bayar dan pastikan transaksi berhasil.</li>
-                <li>Setelah membayar, klik gambar QRIS untuk mengonfirmasi pembayaran.</li>
-                <li>Jika berhasil, tombol WhatsApp akan aktif untuk mengirim bukti ke admin.</li>
-            </ol>
-            </ul>
-          </div>
-          
-        <button id="whatsapp-btn" disabled>
-          Kirim Pesanan ke WhatsApp Admin
-        </button>
-      </section>
-      
+        <!-- QRIS Payment Section -->
+        <section id="payment-section" class="payment-section" aria-labelledby="payment-heading">
+            <h2 id="payment-heading" class="sr-only">Pembayaran QRIS</h2>
+            <img
+                id="qris-img"
+                src="QRIS ORKUT 2.jpg"
+                alt="Kode QRIS untuk pembayaran"
+                class="qris-img"
+                loading="lazy"
+                tabindex="0"
+            >
+            <div id="timer" class="timer" aria-live="assertive">10:00</div>
+            
+            <div id="payment-instruction" class="payment-instruction">
+                <strong>Petunjuk Pembayaran:</strong>
+                <ol>
+                    <li>Buka aplikasi e-wallet Anda (DANA, OVO, Gopay, ShopeePay, dll).</li>
+                    <li>Pilih menu <strong>"Scan QR"</strong>.</li>
+                    <li>Scan gambar QRIS yang muncul di atas.</li>
+                    <li>Masukkan nominal sesuai harga yang tertera.</li>
+                    <li>Bayar dan pastikan transaksi berhasil.</li>
+                    <li>Setelah membayar, klik gambar QRIS untuk mengonfirmasi pembayaran.</li>
+                    <li>Jika berhasil, tombol WhatsApp akan aktif untuk mengirim bukti ke admin.</li>
+                </ol>
+            </div>
+            
+            <button id="whatsapp-btn" class="btn btn-success" disabled>
+                Kirim Pesanan ke WhatsApp Admin
+            </button>
+        </section>
+    </main>
 
     <footer>
-      Ikuti kami di
-      <a
-        href="https://www.instagram.com/fynn_storemlbb/"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Instagram</a
-      >
-      |
-      <a
-        href="https://chat.whatsapp.com/BrmByznEg7ZDxqpIWgMA6S"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Grup Reseller</a
-      >
+        <p>Ikuti kami di
+            <a href="https://www.instagram.com/fynn_storemlbb/" target="_blank" rel="noopener noreferrer" class="footer-link">
+                Instagram
+            </a>
+            |
+            <a href="https://chat.whatsapp.com/BrmByznEg7ZDxqpIWgMA6S" target="_blank" rel="noopener noreferrer" class="footer-link">
+                Grup Reseller
+            </a>
+        </p>
+        <p>&copy; <span id="current-year"></span> Fynstore. All rights reserved.</p>
     </footer>
 
     <script>
-      // Fungsi format harga ke Rp dengan titik ribuan
-      function formatRupiah(number) {
-        return "Rp " + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-      }
-
-      // Data produk lengkap dengan harga
-      const products = [
-        {
-          id: "diamond_mlbb",
-          name: "Diamond Mobile Legends",
-          icon: "ml.jpeg",
-          prices: [
-            { label: "Weekly Diamond Pass x1", price: 29000 },
-            { label: "Diamond ML 5💎 ", price: 1600 },
-            { label: "Diamond Ganda ML 50+50💎", price: 17000 },
-            { label: "Diamond Ganda ML 150+150💎", price: 51000 },
-            { label: "Diamond Ganda ML 250+250💎", price: 85000 },
-            { label: "Diamond Ganda ML 500+500💎", price: 170000 },
-            { label: "Diamond ML 12💎", price: 4000 },
-            { label: "Diamond ML 19💎", price: 6500 },
-            { label: "Diamond ML 28💎", price: 9500 },
-            { label: "Diamond ML 44💎", price: 13500 },
-            { label: "Diamond ML 59💎", price: 18000 },
-            { label: "Diamond ML 85💎", price: 27500 },
-            { label: "Diamond ML 170💎 (Event Topup 100💎)", price: 53000 },
-            { label: "Diamond ML 240💎", price: 70000 },
-            { label: "Diamond ML 296💎 (Event Topup 250💎)", price: 85800 },
-            { label: "Diamond ML 408💎", price: 125000 },
-            { label: "Diamond ML 568💎", price: 165000 },
-            { label: "Diamond ML 875💎", price: 245000 },
-            { label: "Diamond ML 2010💎", price: 550000 },
-            { label: "Diamond ML 4830💎", price: 1430000 },
-            ,
-          ],
-        },
-        // {
-        //   id: "uc_pubg",
-        //   name: "UC PUBG Mobile",
-        //   icon: "https://cdn-icons-png.flaticon.com/512/906/906175.png",
-        //   prices: [
-        //     { label: "65 UC", price: 15000 },
-        //     { label: "325 UC", price: 70000 },
-        //     { label: "540 UC", price: 115000 },
-        //     { label: "1100 UC", price: 230000 },
-        //   ],
-        // },
-        // {
-        //   id: "pulsa_telkomsel",
-        //   name: "Pulsa Telkomsel",
-        //   icon: "https://cdn-icons-png.flaticon.com/512/888/888857.png",
-        //   prices: [
-        //     { label: "5.000", price: 5000 },
-        //     { label: "10.000", price: 10000 },
-        //     { label: "25.000", price: 25000 },
-        //     { label: "50.000", price: 50000 },
-        //   ],
-        // },
-        // {
-        //   id: "voucher_game",
-        //   name: "Voucher Game",
-        //   icon: "https://cdn-icons-png.flaticon.com/512/3039/3039432.png",
-        //   prices: [
-        //     { label: "Voucher Rp 20.000", price: 20000 },
-        //     { label: "Voucher Rp 50.000", price: 50000 },
-        //     { label: "Voucher Rp 100.000", price: 100000 },
-        //   ],
-        // },
-      ];
-
-      const productGrid = document.getElementById("product-grid");
-      const orderSection = document.getElementById("order-section");
-      const orderForm = document.getElementById("order-form");
-      const nominalSelect = document.getElementById("nominal");
-      const orderSummary = document.getElementById("order-summary");
-      const paymentSection = document.getElementById("payment-section");
-      const timerEl = document.getElementById("timer");
-      const whatsappBtn = document.getElementById("whatsapp-btn");
-
-      let selectedProduct = null;
-      let timerInterval = null;
-      let timeLeft = 600; // 10 menit dalam detik
-
-      // Render kartu produk dengan harga terkecil sebagai harga preview
-      function renderProducts() {
-        productGrid.innerHTML = "";
-        products.forEach((prod) => {
-          // Harga terkecil dari array prices
-          const minPrice = prod.prices.reduce(
-            (min, p) => (p.price < min ? p.price : min),
-            prod.prices[0].price
-          );
-          const card = document.createElement("div");
-          card.className = "product-card";
-          card.setAttribute("tabindex", "0");
-          card.setAttribute("role", "button");
-          card.setAttribute("aria-pressed", "false");
-          card.innerHTML = `
-          <img src="${prod.icon}" alt="${
-            prod.name
-          } icon" class="product-icon" />
-          <div class="product-name">${prod.name}</div>
-          <div class="product-price">${formatRupiah(minPrice)}</div>
-        `;
-          card.addEventListener("click", () => selectProduct(prod.id));
-          card.addEventListener("keypress", (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              selectProduct(prod.id);
+        // Modern JavaScript with error handling and best practices
+        (function() {
+            'use strict';
+            
+            // DOM Elements
+            const DOM = {
+                productGrid: document.getElementById('product-grid'),
+                orderSection: document.getElementById('order-section'),
+                orderForm: document.getElementById('order-form'),
+                nominalSelect: document.getElementById('nominal'),
+                orderSummary: document.getElementById('order-summary'),
+                paymentSection: document.getElementById('payment-section'),
+                timerEl: document.getElementById('timer'),
+                whatsappBtn: document.getElementById('whatsapp-btn'),
+                qrisImg: document.getElementById('qris-img'),
+                currentYear: document.getElementById('current-year')
+            };
+            
+            // App State
+            const state = {
+                selectedProduct: null,
+                timerInterval: null,
+                timeLeft: 600, // 10 minutes in seconds
+                paymentConfirmed: false
+            };
+            
+            // Product Data
+            const products = [
+                {
+                    id: 'diamond_mlbb',
+                    name: 'Diamond Mobile Legends',
+                    icon: 'ml.jpeg',
+                    prices: [
+                        { label: 'Weekly Diamond Pass x1', price: 29000 },
+                        { label: 'Diamond ML 5💎', price: 1600 },
+                        { label: 'Diamond Ganda ML 50+50💎', price: 17000 },
+                        { label: 'Diamond Ganda ML 150+150💎', price: 51000 },
+                        { label: 'Diamond Ganda ML 250+250💎', price: 85000 },
+                        { label: 'Diamond Ganda ML 500+500💎', price: 170000 },
+                        { label: 'Diamond ML 12💎', price: 4000 },
+                        { label: 'Diamond ML 19💎', price: 6500 },
+                        { label: 'Diamond ML 28💎', price: 9500 },
+                        { label: 'Diamond ML 44💎', price: 13500 },
+                        { label: 'Diamond ML 59💎', price: 18000 },
+                        { label: 'Diamond ML 85💎', price: 27500 },
+                        { label: 'Diamond ML 170💎 (Event Topup 100💎)', price: 53000 },
+                        { label: 'Diamond ML 240💎', price: 70000 },
+                        { label: 'Diamond ML 296💎 (Event Topup 250💎)', price: 85800 },
+                        { label: 'Diamond ML 408💎', price: 125000 },
+                        { label: 'Diamond ML 568💎', price: 165000 },
+                        { label: 'Diamond ML 875💎', price: 245000 },
+                        { label: 'Diamond ML 2010💎', price: 550000 },
+                        { label: 'Diamond ML 4830💎', price: 1430000 }
+                    ]
+                }
+                // Additional products can be added here
+            ];
+            
+            // Utility Functions
+            const utils = {
+                // Format currency to IDR
+                formatRupiah: (number) => {
+                    return new Intl.NumberFormat('id-ID', {
+                        style: 'currency',
+                        currency: 'IDR',
+                        minimumFractionDigits: 0
+                    }).format(number);
+                },
+                
+                // Format time as MM:SS
+                formatTime: (seconds) => {
+                    const m = Math.floor(seconds / 60);
+                    const s = seconds % 60;
+                    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                },
+                
+                // Scroll to element with smooth behavior
+                scrollToElement: (element) => {
+                    element.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                },
+                
+                // Show loading state
+                showLoading: (element) => {
+                    element.classList.add('loading');
+                },
+                
+                // Hide loading state
+                hideLoading: (element) => {
+                    element.classList.remove('loading');
+                }
+            };
+            
+            // Core Functions
+            const app = {
+                // Initialize the application
+                init: function() {
+                    this.renderProducts();
+                    this.setupEventListeners();
+                    this.setCurrentYear();
+                    
+                    // Preload important images
+                    this.preloadImages(['Logo Fyn.jpg', 'ml.jpeg', 'QRIS ORKUT 2.jpg']);
+                },
+                
+                // Set current year in footer
+                setCurrentYear: function() {
+                    DOM.currentYear.textContent = new Date().getFullYear();
+                },
+                
+                // Preload images for better performance
+                preloadImages: function(imageUrls) {
+                    imageUrls.forEach(url => {
+                        const img = new Image();
+                        img.src = url;
+                    });
+                },
+                
+                // Render product cards
+                renderProducts: function() {
+                    try {
+                        DOM.productGrid.innerHTML = '';
+                        
+                        products.forEach(product => {
+                            const minPrice = Math.min(...product.prices.map(p => p.price));
+                            const card = document.createElement('div');
+                            
+                            card.className = 'product-card';
+                            card.setAttribute('role', 'button');
+                            card.setAttribute('aria-label', `Pilih ${product.name} mulai dari ${utils.formatRupiah(minPrice)}`);
+                            card.setAttribute('tabindex', '0');
+                            
+                            card.innerHTML = `
+                                <img src="${product.icon}" alt="${product.name}" class="product-icon" loading="lazy">
+                                <div class="product-name">${product.name}</div>
+                                <div class="product-price">Mulai dari ${utils.formatRupiah(minPrice)}</div>
+                            `;
+                            
+                            // Event listeners for card
+                            card.addEventListener('click', () => this.selectProduct(product.id));
+                            card.addEventListener('keydown', (e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    this.selectProduct(product.id);
+                                }
+                            });
+                            
+                            DOM.productGrid.appendChild(card);
+                        });
+                    } catch (error) {
+                        console.error('Error rendering products:', error);
+                        DOM.productGrid.innerHTML = '<p class="error-message">Gagal memuat produk. Silakan refresh halaman.</p>';
+                    }
+                },
+                
+                // Select a product and show order form
+                selectProduct: function(productId) {
+                    try {
+                        state.selectedProduct = products.find(p => p.id === productId);
+                        if (!state.selectedProduct) return;
+                        
+                        // Show order section
+                        DOM.orderSection.classList.add('active');
+                        DOM.paymentSection.classList.remove('active');
+                        DOM.whatsappBtn.disabled = true;
+                        state.paymentConfirmed = false;
+                        
+                        // Populate nominal options
+                        this.populateNominalOptions();
+                        
+                        // Reset form
+                        DOM.orderForm.reset();
+                        this.updateOrderSummary();
+                        
+                        // Scroll to form
+                        utils.scrollToElement(DOM.orderSection);
+                    } catch (error) {
+                        console.error('Error selecting product:', error);
+                        alert('Terjadi kesalahan saat memilih produk. Silakan coba lagi.');
+                    }
+                },
+                
+                // Populate nominal options in select dropdown
+                populateNominalOptions: function() {
+                    try {
+                        DOM.nominalSelect.innerHTML = '';
+                        
+                        state.selectedProduct.prices.forEach(price => {
+                            const option = document.createElement('option');
+                            option.value = price.label;
+                            option.textContent = `${price.label} - ${utils.formatRupiah(price.price)}`;
+                            DOM.nominalSelect.appendChild(option);
+                        });
+                    } catch (error) {
+                        console.error('Error populating nominal options:', error);
+                    }
+                },
+                
+                // Update order summary
+                updateOrderSummary: function() {
+                    try {
+                        if (!state.selectedProduct) return;
+                        
+                        const userId = DOM.orderForm.userId.value.trim();
+                        const nominalLabel = DOM.nominalSelect.value;
+                        const priceObj = state.selectedProduct.prices.find(p => p.label === nominalLabel);
+                        
+                        if (!priceObj) {
+                            DOM.orderSummary.textContent = 'Pilih nominal terlebih dahulu';
+                            return;
+                        }
+                        
+                        const summaryText = `
+                            Produk: ${state.selectedProduct.name}
+                            User ID/HP: ${userId || '-'}
+                            Nominal: ${nominalLabel}
+                            Harga: ${utils.formatRupiah(priceObj.price)}
+                        `;
+                        
+                        DOM.orderSummary.textContent = summaryText;
+                    } catch (error) {
+                        console.error('Error updating order summary:', error);
+                    }
+                },
+                
+                // Start payment timer
+                startTimer: function() {
+                    clearInterval(state.timerInterval);
+                    state.timeLeft = 600;
+                    state.paymentConfirmed = false;
+                    DOM.timerEl.textContent = utils.formatTime(state.timeLeft);
+                    DOM.whatsappBtn.disabled = true;
+                    
+                    state.timerInterval = setInterval(() => {
+                        state.timeLeft--;
+                        DOM.timerEl.textContent = utils.formatTime(state.timeLeft);
+                        
+                        if (state.timeLeft <= 0) {
+                            clearInterval(state.timerInterval);
+                            DOM.whatsappBtn.disabled = true;
+                            DOM.timerEl.textContent = 'Waktu habis';
+                            
+                            // Add visual feedback
+                            DOM.timerEl.style.color = '#ff6b6b';
+                            DOM.timerEl.style.animation = 'pulse 1s infinite';
+                        }
+                    }, 1000);
+                },
+                
+                // Handle form submission
+                handleFormSubmit: function(e) {
+                    e.preventDefault();
+                    
+                    try {
+                        if (!state.selectedProduct) {
+                            alert('Pilih produk terlebih dahulu!');
+                            return;
+                        }
+                        
+                        const userId = DOM.orderForm.userId.value.trim();
+                        if (!userId) {
+                            alert('Masukkan ID game atau nomor HP!');
+                            DOM.orderForm.userId.focus();
+                            return;
+                        }
+                        
+                        // Show loading state
+                        utils.showLoading(DOM.orderForm);
+                        
+                        // Simulate processing delay
+                        setTimeout(() => {
+                            // Hide loading
+                            utils.hideLoading(DOM.orderForm);
+                            
+                            // Show payment section and start timer
+                            DOM.paymentSection.classList.add('active');
+                            this.startTimer();
+                            
+                            // Reset WhatsApp button
+                            DOM.whatsappBtn.disabled = true;
+                            
+                            // Scroll to payment section
+                            utils.scrollToElement(DOM.paymentSection);
+                        }, 500);
+                    } catch (error) {
+                        console.error('Error submitting form:', error);
+                        utils.hideLoading(DOM.orderForm);
+                        alert('Terjadi kesalahan saat memproses pesanan. Silakan coba lagi.');
+                    }
+                },
+                
+                // Handle WhatsApp button click
+                handleWhatsAppClick: function() {
+                    try {
+                        if (!state.selectedProduct || !state.paymentConfirmed) return;
+                        
+                        const userId = DOM.orderForm.userId.value.trim();
+                        const nominalLabel = DOM.nominalSelect.value;
+                        const priceObj = state.selectedProduct.prices.find(p => p.label === nominalLabel);
+                        
+                        if (!priceObj) return;
+                        
+                        const message = `
+Halo Admin, saya sudah melakukan pembayaran!
+────────────────
+Produk: ${state.selectedProduct.name}
+User ID: ${userId}
+Nominal: ${nominalLabel}
+Harga: ${utils.formatRupiah(priceObj.price)}
+────────────────
+Bukti transfer: [Saya sudah bayar via QRIS]
+                        `.trim();
+                        
+                        const waNumber = '6281269441924'; // Replace with your WhatsApp number
+                        const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+                        
+                        window.open(url, '_blank', 'noopener,noreferrer');
+                    } catch (error) {
+                        console.error('Error handling WhatsApp click:', error);
+                        alert('Terjadi kesalahan saat membuka WhatsApp. Silakan coba lagi.');
+                    }
+                },
+                
+                // Handle QRIS image click (payment confirmation)
+                handlePaymentConfirmation: function() {
+                    if (state.timeLeft <= 0) return;
+                    
+                    state.paymentConfirmed = true;
+                    DOM.whatsappBtn.disabled = false;
+                    
+                    // Visual feedback
+                    DOM.qrisImg.style.animation = 'pulse 0.5s 2';
+                    setTimeout(() => {
+                        DOM.qrisImg.style.animation = '';
+                    }, 1000);
+                    
+                    // Update timer color
+                    DOM.timerEl.style.color = '#51cf66';
+                    
+                    // Show confirmation message
+                    const originalText = DOM.timerEl.textContent;
+                    DOM.timerEl.textContent = 'Pembayaran dikonfirmasi!';
+                    
+                    setTimeout(() => {
+                        DOM.timerEl.textContent = originalText;
+                    }, 2000);
+                },
+                
+                // Set up all event listeners
+                setupEventListeners: function() {
+                    // Form input changes
+                    DOM.orderForm.userId.addEventListener('input', () => this.updateOrderSummary());
+                    DOM.nominalSelect.addEventListener('change', () => this.updateOrderSummary());
+                    
+                    // Form submission
+                    DOM.orderForm.addEventListener('submit', (e) => this.handleFormSubmit(e));
+                    
+                    // WhatsApp button
+                    DOM.whatsappBtn.addEventListener('click', () => this.handleWhatsAppClick());
+                    
+                    // QRIS payment confirmation
+                    DOM.qrisImg.addEventListener('click', () => this.handlePaymentConfirmation());
+                    DOM.qrisImg.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            this.handlePaymentConfirmation();
+                        }
+                    });
+                    
+                    // Reset state when clicking on product grid
+                    DOM.productGrid.addEventListener('click', () => {
+                        if (state.timerInterval) {
+                            clearInterval(state.timerInterval);
+                        }
+                    });
+                }
+            };
+            
+            // Initialize the app when DOM is loaded
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => app.init());
+            } else {
+                app.init();
             }
-          });
-          productGrid.appendChild(card);
-        });
-      }
-
-      // Ketika produk dipilih, tampilkan form order dan isi nominal sesuai produk
-      function selectProduct(productId) {
-        selectedProduct = products.find((p) => p.id === productId);
-        if (!selectedProduct) return;
-
-        orderSection.classList.add("active");
-        paymentSection.classList.remove("active");
-        whatsappBtn.disabled = true;
-
-        // Isi dropdown nominal
-        nominalSelect.innerHTML = "";
-        selectedProduct.prices.forEach((p) => {
-          const option = document.createElement("option");
-          option.value = p.label;
-          option.textContent = `${p.label} - ${formatRupiah(p.price)}`;
-          nominalSelect.appendChild(option);
-        });
-
-        orderForm.userId.value = "";
-        nominalSelect.selectedIndex = 0;
-        updateSummary();
-
-        // Scroll ke form
-        orderSection.scrollIntoView({ behavior: "smooth" });
-      }
-
-      // Update ringkasan order
-      function updateSummary() {
-        const userId = orderForm.userId.value.trim();
-        const nominalLabel = nominalSelect.value;
-        const priceObj = selectedProduct.prices.find(
-          (p) => p.label === nominalLabel
-        );
-        const priceText = priceObj ? formatRupiah(priceObj.price) : "-";
-
-        orderSummary.textContent =
-          `Produk: ${selectedProduct.name}\n` +
-          `User ID/HP: ${userId || "-"}\n` +
-          `Nominal: ${nominalLabel}\n` +
-          `Harga: ${priceText}`;
-      }
-
-      orderForm.userId.addEventListener("input", updateSummary);
-      nominalSelect.addEventListener("change", updateSummary);
-
-      // Timer fungsi
-      function startTimer() {
-        timeLeft = 600; // 10 menit
-        timerEl.textContent = formatTime(timeLeft);
-        whatsappBtn.disabled = true;
-
-        timerInterval = setInterval(() => {
-          timeLeft--;
-          timerEl.textContent = formatTime(timeLeft);
-          if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            whatsappBtn.disabled = true;
-            timerEl.textContent = "Waktu habis";
-          }
-        }, 1000);
-      }
-
-      function formatTime(seconds) {
-        const m = Math.floor(seconds / 60);
-        const s = seconds % 60;
-        return `${m.toString().padStart(2, "0")}:${s
-          .toString()
-          .padStart(2, "0")}`;
-      }
-
-      // Saat tombol Pesan diklik
-      orderForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        if (!selectedProduct) return alert("Pilih produk terlebih dahulu!");
-        const userId = orderForm.userId.value.trim();
-        if (userId === "") return alert("Masukkan ID game atau nomor HP!");
-        const nominalLabel = nominalSelect.value;
-
-        // Tampilkan payment section dan mulai timer
-        paymentSection.classList.add("active");
-        startTimer();
-
-        // Reset tombol WA
-        whatsappBtn.disabled = true;
-        whatsappBtn.style.display = "inline-block";
-      });
-
-      // Ketika tombol WhatsApp diklik
-      whatsappBtn.addEventListener("click", () => {
-        const userId = orderForm.userId.value.trim();
-        const nominalLabel = nominalSelect.value;
-
-        const message =
-          `Halo Admin, saya sudah melakukan pembayaran!\n` +
-          `Produk: ${selectedProduct.name}\n` +
-          `User ID: ${userId}\n` +
-          `Nominal: ${nominalLabel}\n` +
-          `Bukti transfer: [Saya sudah bayar via QRIS]`;
-
-        const waNumber = "6281269441924"; // Ganti dengan nomor admin kamu tanpa + atau 0 awal (contoh: 6281234567890)
-        const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(
-          message
-        )}`;
-        window.open(url, "_blank");
-      });
-
-      // Simulasi pembayaran manual
-      // Setelah klik Pesan, tombol WA muncul dan aktif dalam 10 menit,
-      // kalau habis disable otomatis.
-      // Tapi tombol WA cuma aktif jika user klik tombol “Saya sudah bayar” (disini kita simulasikan tombol itu)
-      // Jadi kita buat shortcut di sini: klik QRIS buat aktifkan tombol WA (simulasi)
-
-      // Klik QRIS untuk simulasi sudah bayar
-      document.getElementById("qris-img").addEventListener("click", () => {
-        if (timeLeft > 0) {
-          whatsappBtn.disabled = false;
-          alert("Status pembayaran: Sudah bayar (Maka langsung ke admin)");
-        }
-      });
-
-      // Init
-      renderProducts();
+        })();
     </script>
-  </body>
+</body>
 </html>
